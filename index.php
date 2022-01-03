@@ -1,8 +1,3 @@
-<?php
-$url="https://newsapi.org/v2/everything?q=bitcoin&from=2021-12-01&sortBy=publishedAt&apiKey=0048d2a5e785498798937f56e12e1be1";
-$rep = file_get_contents($url);
-$newsdata = json_decode($rep);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -132,44 +127,9 @@ $newsdata = json_decode($rep);
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" id="toto">
             <!-- Start Left Blog -->
-            <?php
-            $i=1;
-                foreach ($newsdata->articles as $news){
-                  if(!empty($news->urlToImage) && $i<= 15){
-            ?>
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <div class="single-blog">
-                <div class="single-blog-img">
-                  <a  target="_blank" href="<?php echo $news->url ?>">
-                    <img  class = "class-image" src="<?php echo $news->urlToImage ?>" alt="" width="100%" height ="350px">
-                  </a>
-                </div>
-                <div class="blog-meta">
-                  <span class="date-type">
-                    <i class="fa fa-calendar"></i><?php echo $news->publishedAt ?>
-                  </span>
-                </div>
-                <div class="blog-text">
-                  <h4 class ="max-content" >
-                    <a target="_blank" href="<?php echo $news->url ?>" title = "<?php echo $news->title ?>"><?php echo $news->title ?></a>
-                  </h4>
-                  <p class ="max-content-p">
-                  <?php echo $news->description ?>
-                  </p>
-                </div>
-                <span>
-                  <a target="_blank" href="<?php echo $news->url ?>" class="ready-btn">Read more</a>
-                </span>
-              </div>
-              <!-- Start single blog -->
-            </div>
-            <?php
-                $i++;
-                 }
-                }
-            ?>
+
             <!-- End Left Blog-->
           </div>
         </div>
@@ -423,7 +383,20 @@ $newsdata = json_decode($rep);
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+<script>
 
+  $(function(){
+      $.ajax({
+        type: "POST",
+        url: "getnews.php",
+        success: function (data) {
+          if (data) {
+            $("#toto").html(data);
+          }
+        }
+      });
+  });
+</script>
 </body>
 
 </html>
